@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/task
+    	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <context:annotation-config />
+    <mvc:annotation-driven />
+
+    <!--
+        如果指定 use-default-filters="false"，则使用下面自定义的扫描方式。默认为true，扫描所有的component
+        所以如果只指定context:exclude-filter，就没有注册任何的bean到容器中。
+        此时，需要指定一种context:include-filter方式来加载bean。
+     -->
+    <context:component-scan base-package="org.zkTrump" ><!-- use-default-filters="false" -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/> -->
+    </context:component-scan>
+
+    <!-- 支持异步方法执行 -->
+    <task:annotation-driven />
+
+</beans>

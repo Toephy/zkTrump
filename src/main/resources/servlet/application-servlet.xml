@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <mvc:annotation-driven />
+
+    <!-- 静态资源默认servlet配置
+        1:加入对静态资源的处理：js，gif，png
+        2:允许使用"/"做整体映射
+    -->
+    <mvc:default-servlet-handler/>
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.zkTrump.controller" />
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- log4j配置 -->
+    <!--<bean id="log4jInitialization"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+        <property name="targetMethod" value="initLogging" />
+        <property name="arguments">
+            <list>
+                <value>classpath:servlet/log4j.xml</value>
+            </list>
+        </property>
+    </bean>-->
+
+    <bean name="/dashboard" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName" value="dashboard"/>
+    </bean>
+</beans>
