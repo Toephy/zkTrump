@@ -33,13 +33,17 @@
 
         levels: 2,
 
-        expandIcon: 'glyphicon glyphicon-plus',
-        collapseIcon: 'glyphicon glyphicon-minus',
+        //expandIcon: 'glyphicon glyphicon-plus',
+        //collapseIcon: 'glyphicon glyphicon-minus',
+        expandIcon: 'glyphicon glyphicon-chevron-down',
+        collapseIcon: 'glyphicon glyphicon-chevron-up',
         emptyIcon: 'glyphicon',
         nodeIcon: '',
         selectedIcon: '',
         checkedIcon: 'glyphicon glyphicon-check',
         uncheckedIcon: 'glyphicon glyphicon-unchecked',
+        addIcon: 'glyphicon glyphicon-plus',
+        delIcon: 'glyphicon glyphicon-minus',
 
         color: undefined, // '#000000',
         backColor: undefined, // '#FFFFFF',
@@ -581,19 +585,29 @@
                     );
             }
 
-            // Add text
+            //============================================
+            // modify by toephy
+            //var classList = ['add-icon'];
+            //classList.push(_this.options.addIcon);
+            // 节点添加path属性
+            treeItem.attr('path', node.path);
+
+            var add_icon = $(_this.template.addIcon).addClass(_this.options.addIcon);
+
+            var del_icon = $(_this.template.delIcon).addClass(_this.options.delIcon);
+            //============================================
+
             if (_this.options.enableLinks) {
                 // Add hyperlink
                 treeItem
-                    .append($(_this.template.link)
-                        .attr('href', node.href)
-                        .append(node.text)
-                    );
+                    .append($(_this.template.link).attr('href', node.href).append(node.text))
+                    .append(node.nodes ? add_icon : del_icon);
             }
             else {
                 // otherwise just text
                 treeItem
-                    .append(node.text);
+                    .append($(_this.template.text).append(node.text))
+                    .append(node.nodes ? add_icon : del_icon);
             }
 
             // Add tags as badges
@@ -691,11 +705,14 @@
         item: '<li class="list-group-item"></li>',
         indent: '<span class="indent"></span>',
         icon: '<span class="icon"></span>',
+        text: '<b style="color:inherit;" onclick="dashboard.nodeData(this)"></b>',
         link: '<a href="#" style="color:inherit;"></a>',
+        addIcon:'<span class="operate_icon" title="增加节点" onclick="dashboard.addNode(this)"></span>',
+        delIcon:'<span class="operate_icon" title="删除节点" onclick="dashboard.deleteNode(this)"></span>',
         badge: '<span class="badge"></span>'
     };
 
-    Tree.prototype.css = '.treeview .list-group-item{cursor:pointer}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}'
+    Tree.prototype.css = '.treeview .list-group-item{cursor:pointer}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}.treeview .operate_icon{ margin-left:10px;visibility: hidden} .list-group-item:hover .operate_icon{ visibility: visible;}';
 
 
     /**
